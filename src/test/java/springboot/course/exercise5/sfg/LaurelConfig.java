@@ -4,9 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class BaseConfig {
+public class LaurelConfig {
+
     @Bean
-    HearingInterpreter hearingInterpreter(WordProducer wordProducer){
-        return new HearingInterpreter(wordProducer);
+    LaurelWordProducer laurelWordProducer(){
+        return new LaurelWordProducer();
     }
 }
