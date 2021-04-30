@@ -2,27 +2,23 @@ package springboot.course.exercise5.sfg;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ActiveProfiles("inner-test")
-@SpringJUnitConfig(classes = HearingInterpreterInnerClassTest.TestConfig.class)
-class HearingInterpreterInnerClassTest {
+@TestPropertySource("classpath:yanny.properties")
+@ActiveProfiles("externalized")
+@SpringJUnitConfig(PropertiesWordProducerYannyTest.TestConfig.class)
+class PropertiesWordProducerYannyTest {
 
-    @Profile("inner-test")
     @Configuration
-    static class TestConfig{
-        @Bean
-        HearingInterpreter hearingInterpreter(){
-            return new HearingInterpreter(new LaurelWordProducer());
-        }
-
-    }
+    @ComponentScan("springboot.course.exercise5.sfg")
+    static class TestConfig{}
 
     @Autowired
     HearingInterpreter hearingInterpreter;
@@ -31,6 +27,6 @@ class HearingInterpreterInnerClassTest {
     void whatIHeard(){
         String word = hearingInterpreter.whatIHeard();
 
-        assertEquals("Laurel", word);
+        assertThat(word).isEqualToIgnoringCase("yanny");
     }
 }

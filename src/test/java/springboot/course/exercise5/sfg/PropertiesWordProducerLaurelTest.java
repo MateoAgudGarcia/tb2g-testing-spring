@@ -4,17 +4,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles({"component-scan-y","yanny"})
-@SpringJUnitConfig(classes = HearingInterpreterScanYannyTest.TestConfig.class)
-class HearingInterpreterScanYannyTest {
+@TestPropertySource("classpath:laurel.properties")
+@ActiveProfiles("externalized")
+@SpringJUnitConfig(PropertiesWordProducerLaurelTest.TestConfig.class)
+class PropertiesWordProducerLaurelTest {
 
-    @Profile("component-scan-y")
     @Configuration
     @ComponentScan("springboot.course.exercise5.sfg")
     static class TestConfig{}
@@ -26,6 +26,6 @@ class HearingInterpreterScanYannyTest {
     void whatIHeard(){
         String word = hearingInterpreter.whatIHeard();
 
-        assertEquals("Yanny", word);
+        assertThat(word).isEqualToIgnoringCase("laurel");
     }
 }
